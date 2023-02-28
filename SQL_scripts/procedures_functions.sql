@@ -68,27 +68,27 @@ END$$
 
 delimiter ;
 
-insert into users(username, password)
-	values('username', 'password'); 
-insert into users(username, password)
-	values('username2', 'password'); 
-insert into pokemon(id, name)
-	values(1, 'pikachu'); 
-insert into pokemon(id, name)
-	values(2, 'oddish'); 
-    
-select caught('username', 'pikachu', 5);
-select caught('username', 'oddish', 5);
-select caught('username2', 'oddish', 5);
-select levelUp('username','pikachu', 100);
-select levelUp('username','pikachu', 10);
+-- insert into users(username, password)
+-- 	values('username', 'password'); 
+-- insert into users(username, password)
+-- 	values('username2', 'password'); 
+-- insert into pokemon(id, name)
+-- 	values(1, 'pikachu'); 
+-- insert into pokemon(id, name)
+-- 	values(2, 'oddish'); 
+--     
+-- select caught('username', 'pikachu', 5);
+-- select caught('username', 'oddish', 5);
+-- select caught('username2', 'oddish', 5);
+-- select levelUp('username','pikachu', 100);
+-- select levelUp('username','pikachu', 10);
 
-call test_select('username');
+-- call test_select('username');
 
--- select * from collected;
-truncate collected;
-truncate users;
-truncate pokemon
+-- -- select * from collected;
+-- truncate collected;
+-- truncate users;
+-- truncate pokemon
 
 
 
