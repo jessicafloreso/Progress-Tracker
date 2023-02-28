@@ -1,6 +1,6 @@
 delimiter $$
+# LOGIN FUNCTION
 drop function if exists login $$
-
 create function login(usernameIn varchar(30), passwordIn varchar(30))
 returns boolean
 deterministic
@@ -9,6 +9,7 @@ begin
     (select password from users where username = usernameIn) = passwordIn, True, false);
 end $$
 
+# CAUGHT FUNCTION
 drop function if exists caught $$
 create function caught(user_name_in varchar(30), pokemon_name_in varchar(30), level_in int) # java custom exception for level over 100
 returns boolean
@@ -26,6 +27,7 @@ begin
     
 end $$
 
+# LEVEL UP FUNCTION
 drop function if exists levelUp $$ # if trigger on level is not made, update collected here
 create function levelUp(user_name_in varchar(30), pokemon_name_in varchar(30), new_level int) 
 returns boolean
@@ -41,20 +43,54 @@ begin
 	end if;
 end $$
 
+# PROGRESS PROCEDURE
+drop PROCEDURE if exists test_select $$
+CREATE PROCEDURE test_select(user_name_in varchar(30))
+BEGIN
+    select * from collected where user_name = user_name_in;
+end$$
+
+##############
+-- TRIGGERS --
+##############
+drop trigger if exists collectedCheck $$
+create trigger collectedCheck 
+before update 
+on 
+collected 
+for each row 
+BEGIN 
+	if new.level >= 100 then set new.completed = true;
+    elseif new.level < 100 then set new.completed = false;
+    end if;
+END$$
+
+
 delimiter ;
 
 insert into users(username, password)
 	values('username', 'password'); 
+insert into users(username, password)
+	values('username2', 'password'); 
 insert into pokemon(id, name)
 	values(1, 'pikachu'); 
+insert into pokemon(id, name)
+	values(2, 'oddish'); 
     
 select caught('username', 'pikachu', 5);
+select caught('username', 'oddish', 5);
+select caught('username2', 'oddish', 5);
+select levelUp('username','pikachu', 100);
 select levelUp('username','pikachu', 10);
 
-select * from collected;
-delete from collected where user_name = 'username';
-delete from users where username = 'username'; 
-delete from pokemon where name = 'pikachu'; 
+call test_select('username');
+
+-- select * from collected;
+truncate collected;
+truncate users;
+truncate pokemon
+
+
 
 
 
