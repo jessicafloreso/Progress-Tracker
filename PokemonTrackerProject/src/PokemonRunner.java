@@ -1,3 +1,13 @@
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.EOFException;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
@@ -10,12 +20,27 @@ public class PokemonRunner {
 	private static PokemonDb db;
 	private static Scanner sc;
 	private static String user;
+	private static String cookiePath;
 
 	public static void main(String[] args) {
 		db = new PokemonDb();
 		sc = new Scanner(System.in);
+		cookiePath = "resources/cookies.txt";
 		
-		// login process
+		// read cookies
+		try(BufferedReader reader = new BufferedReader(new FileReader(new File(cookiePath)))) {
+			String savedUser = reader.readLine();
+			if (savedUser != null) {
+				user = savedUser;
+				System.out.println("Welcome back " + savedUser);
+			} else {
+				System.out.println("login wiht 'login' to continue!");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
 
 		
 		// 
@@ -25,10 +50,13 @@ public class PokemonRunner {
 			
 			switch(command.toLowerCase()) {
 				case "help":
-					System.out.println("login, exit, collection, search, catch, level up");
+					System.out.println("login, logout, exit, collection, search, catch, level");
 					break;
 				case "login": 
 					login();
+					break;
+				case "logout":
+					logout();
 					break;
 				case "exit":
 					running = false;
@@ -56,6 +84,18 @@ public class PokemonRunner {
 		System.out.println("Exiting, thanks for playing");
 		
 	}
+	public static void logout() {
+		user = null;
+		System.out.println("logged out");
+		
+		//update cookies
+		try(BufferedWriter writer = new BufferedWriter( new FileWriter(new File(cookiePath), false))) {
+			writer.write("");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public static void catcher() {
 		System.out.println("Enter pokemon name");
 		String name = sc.nextLine();
@@ -131,6 +171,15 @@ public class PokemonRunner {
 				} else {
 					user = username;
 					System.out.println("logged in as " + user);
+					
+					//update cookies
+					try(BufferedWriter writer = new BufferedWriter( new FileWriter(new File(cookiePath), false))) {
+						writer.write(user);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					
+					
 				}
 				
 			} catch (Exception e) { // TODO: custom exception for invalid login
