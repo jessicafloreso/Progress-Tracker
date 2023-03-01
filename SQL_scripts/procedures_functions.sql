@@ -44,10 +44,17 @@ begin
 end $$
 
 # PROGRESS PROCEDURE
-drop PROCEDURE if exists test_select $$
-CREATE PROCEDURE test_select(user_name_in varchar(30))
+drop PROCEDURE if exists get_collection $$
+CREATE PROCEDURE get_collection(user_name_in varchar(30))
 BEGIN
     select * from collected where user_name = user_name_in;
+end$$
+
+# PROGRESS PROCEDURE
+drop PROCEDURE if exists get_pokemon $$
+CREATE PROCEDURE get_pokemon(user_name_in varchar(30), pokemon_name_in varchar(30))
+BEGIN
+    select * from collected where user_name = user_name_in and pokemon_name = pokemon_name_in;
 end$$
 
 ##############
@@ -67,28 +74,21 @@ END$$
 
 
 delimiter ;
-
-insert into users(username, password)
-	values('username', 'password'); 
-insert into users(username, password)
-	values('username2', 'password'); 
-insert into pokemon(id, name)
-	values(1, 'pikachu'); 
-insert into pokemon(id, name)
-	values(2, 'oddish'); 
     
 select caught('username', 'pikachu', 5);
-select caught('username', 'oddish', 5);
-select caught('username2', 'oddish', 5);
+select caught('username', 'charmander', 5);
+select caught('username2', 'Bulbasaur', 5);
 select levelUp('username','pikachu', 100);
 select levelUp('username','pikachu', 10);
 
-call test_select('username');
+call get_pokemon('username', 'pikachu');
+call get_pokemon('username2', 'oddish');
+
 
 -- select * from collected;
 truncate collected;
-truncate users;
-truncate pokemon
+-- truncate users;
+-- truncate pokemon;
 
 
 
