@@ -10,36 +10,26 @@ begin
 end $$
 
 # CAUGHT FUNCTION
-drop function if exists caught $$
-create function caught(user_name_in varchar(30), pokemon_name_in varchar(30), level_in int) # java custom exception for level over 100
-returns boolean
-deterministic
+drop procedure if exists caught $$
+create procedure caught(user_name_in varchar(30), pokemon_name_in varchar(30), level_in int) # java custom exception for level over 100
 begin
 	IF NOT( SELECT EXISTS 
 		(SELECT * FROM collected WHERE user_name = user_name_in and pokemon_name = pokemon_name_in) ) 
 	THEN 
 		insert into collected(user_name, pokemon_name, level, completed) 
 			values (user_name_in, pokemon_name_in, level_in, (select if (level_in = 100, True, False) ) ) ;
-		return True;
-	ELSE
-		return False;
 	END IF;
     
 end $$
 
 # LEVEL UP FUNCTION
-drop function if exists levelUp $$ # if trigger on level is not made, update collected here
-create function levelUp(user_name_in varchar(30), pokemon_name_in varchar(30), new_level int) 
-returns boolean
-deterministic
+drop procedure if exists levelUp $$ # if trigger on level is not made, update collected here
+create procedure levelUp(user_name_in varchar(30), pokemon_name_in varchar(30), new_level int) 
 begin
 	IF ( SELECT EXISTS 
 		(SELECT * FROM collected WHERE user_name = user_name_in and pokemon_name = pokemon_name_in) ) 
 	then 
 		update collected set level = new_level  WHERE user_name = user_name_in and pokemon_name = pokemon_name_in;
-        return True;
-	else
-		return false;
 	end if;
 end $$
 
@@ -75,17 +65,17 @@ END$$
 
 delimiter ;
     
-select caught('username', 'pikachu', 5);
-select caught('username', 'charmander', 5);
-select caught('username2', 'Bulbasaur', 5);
-select levelUp('username','pikachu', 100);
-select levelUp('username','pikachu', 10);
+call caught('username', 'pikachu', 5);
+call caught('username', 'charmander', 5);
+call caught('username2', 'Bulbasaur', 5);
+call levelUp('username','pikachu', 100);
+call levelUp('username','pikachu', 10);
 
 call get_pokemon('username', 'pikachu');
 call get_pokemon('username2', 'oddish');
 
 
--- select * from collected;
+call get_collection('username');
 truncate collected;
 -- truncate users;
 -- truncate pokemon;

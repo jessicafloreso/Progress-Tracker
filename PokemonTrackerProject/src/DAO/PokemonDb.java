@@ -1,6 +1,7 @@
 package DAO;
 
 import java.sql.Connection;
+import java.util.Optional;
 
 import connection.ConnectionManager;
 
@@ -8,15 +9,20 @@ public class PokemonDb {
 	private UsersDaoSql users;
 	private CollectedSql collection;
 	private Connection conn;
-	private String user;
-	
-
-	public String getUser() {
-		return user;
+//	private String user;
+//	
+//
+//	public String getUser() {
+//		return user;
+//	}
+//	public void setUser(String user) {
+//		this.user = user;
+//	}
+	public UsersDaoSql getUsers() {
+		return users;
 	}
-
-	public void setUser(String user) {
-		this.user = user;
+	public CollectedSql getCollection() {
+		return collection;
 	}
 
 	public PokemonDb() {
@@ -28,17 +34,16 @@ public class PokemonDb {
 		}
 		this.users = new UsersDaoSql(conn);
 		this.collection = new CollectedSql(conn);
-		System.out.println(this.user);
 	}
 	
-	public void login(String username, String password) {
+	public boolean login(String username, String password) {
 		if (users.login(username, password)) {
-			user = username;
+//			user = username;
+			return true;
 		} else {
+			return false;
 			// throw invalid login custom exception
 		}
 		
 	}
-	
-	
 }

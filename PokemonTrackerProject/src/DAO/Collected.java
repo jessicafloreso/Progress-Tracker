@@ -61,8 +61,11 @@ public class Collected {
 
 	@Override
 	public String toString() {
-		return "Collected [userName=" + userName + ", pokemonName=" + pokemonName + ", level=" + level + ", completed="
-				+ completed + "]";
+		if (completed == true) {
+			return "completed\t" + userName + "\t" + pokemonName + "\t" + level;
+		} else {
+			return "in progress\t" + userName + "\t" + pokemonName + "\t" + level;
+		}
 	}
 	
 	
