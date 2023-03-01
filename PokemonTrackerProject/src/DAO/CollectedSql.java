@@ -16,6 +16,24 @@ import connection.ConnectionManager;
 public class CollectedSql implements CollectedInterface {
 	private Connection conn;
 	private String user;
+	
+	
+
+	public CollectedSql(Connection conn) {
+		super();
+		this.conn = conn;
+	}
+	
+	
+
+	public String getUser() {
+		return user;
+	}
+	public void setUser(String user) {
+		this.user = user;
+	}
+
+
 
 	@Override
 	public void setConnection() throws FileNotFoundException, ClassNotFoundException, IOException, SQLException {
