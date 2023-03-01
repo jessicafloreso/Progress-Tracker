@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 import connection.ConnectionManager;
+import customExceptions.MaxLevelException;
 
 public class CollectedSql implements CollectedInterface {
 	private Connection conn;
@@ -65,8 +66,11 @@ public class CollectedSql implements CollectedInterface {
 
 
 	@Override
-	public boolean catchPokemon(String pokemon, int level) {
+	public boolean catchPokemon(String pokemon, int level) throws MaxLevelException {
 		if (level > 100 || level < 0) { // TODO: throw custom exception
+			// Custom exception thrown here
+			throw new MaxLevelException(
+	                "Invalid level reached, the level should only be maximized to 100 and be no less than 1! ");
 		}
 		
 		String stmtStr = "select caught(?, ?, ?)";
