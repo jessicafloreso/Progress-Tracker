@@ -16,7 +16,16 @@ import customExceptions.MaxLevelException;
 
 public class CollectedSql implements CollectedInterface {
 	private Connection conn;
-	private String user;
+	
+	
+
+	public CollectedSql(Connection conn) {
+		super();
+		this.conn = conn;
+	}
+	
+
+
 
 	@Override
 	public void setConnection() throws FileNotFoundException, ClassNotFoundException, IOException, SQLException {
@@ -24,19 +33,19 @@ public class CollectedSql implements CollectedInterface {
 	}
 
 	@Override
-	public List<Collected> getAllCollected() {
+	public List<Collected> getAllCollected(String user) {
 		List<Collected> pokemon = new ArrayList<Collected>();
 		try( PreparedStatement pstmt = conn.prepareStatement("call get_collection(?)")) {
 			pstmt.setString(1, user);
 			
 			ResultSet rs = pstmt.executeQuery(); 
 			while(rs.next()) {
-				String user = rs.getString("user_name");
+				String userName = rs.getString("user_name");
 				String pokemonName = rs.getString("pokemon_name");
 				int level = rs.getInt("level");
 				boolean completed = rs.getBoolean("completed");
 				
-				Collected entry = new Collected(user, pokemonName, level, completed);
+				Collected entry = new Collected(userName, pokemonName, level, completed);
 				pokemon.add(entry);
 			}
 			rs.close();
@@ -48,14 +57,14 @@ public class CollectedSql implements CollectedInterface {
 
 
 	@Override
-	public boolean catchPokemon(String pokemon, int level) throws MaxLevelException {
+	public boolean catchPokemon(String user, String pokemon, int level) throws MaxLevelException {
 		if (level > 100 || level < 0) { // TODO: throw custom exception
 			// Custom exception thrown here
 			throw new MaxLevelException(
 	                "Invalid level reached, the level should only be maximized to 100 and be no less than 1! ");
 		}
 		
-		String stmtStr = "select caught(?, ?, ?)";
+		String stmtStr = "call caught(?, ?, ?)";
 		try(PreparedStatement pstmt = conn.prepareStatement(stmtStr)) {
 			pstmt.setString(1, user);
 			pstmt.setString(2, pokemon);
@@ -65,6 +74,7 @@ public class CollectedSql implements CollectedInterface {
 				return true;
 			}
 		} catch(SQLException e) {
+			e.printStackTrace(); // debug
 			System.out.println("sql error");
 		} catch(Exception e) { // TODO: change to custom exception
 			System.out.println("invalid level");
@@ -73,11 +83,14 @@ public class CollectedSql implements CollectedInterface {
 	}
 
 	@Override
-	public boolean levelUp(String pokemon, int level) {
+	public boolean levelUp(String user, String pokemon, int level) throws MaxLevelException {
 		if (level > 100 || level < 0) { // TODO: throw custom exception
+			// Custom exception thrown here
+			throw new MaxLevelException(
+	                "Invalid level reached, the level should only be maximized to 100 and be no less than 1! ");
 		}
-		
-		String stmtStr = "select levelUp(?, ?, ?)";
+		//select levelUp('username','pikachu', 100);
+		String stmtStr = "call levelUp(?, ?, ?)";
 		try(PreparedStatement pstmt = conn.prepareStatement(stmtStr)) {
 			pstmt.setString(1, user);
 			pstmt.setString(2, pokemon);
@@ -87,6 +100,7 @@ public class CollectedSql implements CollectedInterface {
 				return true;
 			}
 		} catch(SQLException e) {
+			e.printStackTrace(); // debug
 			System.out.println("sql error");
 		} catch(Exception e) { // TODO: change to custom exception
 			System.out.println("invalid level");
@@ -95,21 +109,27 @@ public class CollectedSql implements CollectedInterface {
 	}
 
 	@Override
-	public Optional<Collected> getPokemon(String pokemonNameIn) {
+	public Optional<Collected> getPokemon(String user, String pokemonNameIn) {
 		try(PreparedStatement pstmt = conn.prepareStatement("call get_pokemon(?, ?)"
 				+ "")) {
+			
+			//debug
+			System.out.println(user);
+			System.out.println(pokemonNameIn);
+			//end debug
+			
 			pstmt.setString(1, user);
-			pstmt.setString(1, pokemonNameIn);
+			pstmt.setString(2, pokemonNameIn);
 			
 			ResultSet rs = pstmt.executeQuery();
 			
 			if( rs.next()) {
-				String user = rs.getString("user_name");
+				String userName = rs.getString("user_name");
 				String pokemonName = rs.getString("pokemon_name");
 				int level = rs.getInt("level");
 				boolean completed = rs.getBoolean("completed");
 				
-				Collected entry = new Collected(user, pokemonName, level, completed);
+				Collected entry = new Collected(userName, pokemonName, level, completed);
 				
 				Optional<Collected> pokemonFound = Optional.of(entry);
 				rs.close();
