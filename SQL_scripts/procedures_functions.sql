@@ -47,6 +47,13 @@ BEGIN
     select * from collected where user_name = user_name_in and pokemon_name = pokemon_name_in;
 end$$
 
+# get all pokemon
+drop PROCEDURE if exists get_all_pokemon $$
+CREATE PROCEDURE get_all_pokemon()
+BEGIN
+    select * from pokemon order by id;
+end$$
+
 # ADD NEW USER
 drop procedure if exists add_new_user $$
 create procedure add_new_user(user_name_in varchar(30), password_in varchar(30))
@@ -90,6 +97,7 @@ truncate collected;
 
 select * from users;
 call add_new_user('username5', 'password');
+call get_all_pokemon();
 
 
 

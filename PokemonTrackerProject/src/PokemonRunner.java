@@ -9,6 +9,7 @@ import java.util.Optional;
 import java.util.Scanner;
 
 import DAO.Collected;
+import DAO.Pokemon;
 import DAO.PokemonDb;
 import customExceptions.MaxLevelException;
 import customExceptions.PokemonNotFoundException;
@@ -22,7 +23,7 @@ public class PokemonRunner {
 
 	public static void main(String[] args) {
 		
-		
+		icon();
 		
 		db = new PokemonDb();
 		sc = new Scanner(System.in);
@@ -35,16 +36,16 @@ public class PokemonRunner {
 				user = savedUser;
 				System.out.println("Welcome back " + savedUser);
 			} else {
-				System.out.println("login with 'login' to continue!");
+				System.out.println("Login with 'login' to continue!");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		
 
 		
 		// 
+		help();
 		boolean running = true;
 		while (running) {
 			if (user != null) {
@@ -55,7 +56,7 @@ public class PokemonRunner {
 			String command = sc.nextLine(); 
 			switch(command.toLowerCase()) {
 				case "help":
-					System.out.println("commands: login, logout, exit, collection, search, catch, level, add user");
+					help();
 					break;
 				case "login": 
 					login();
@@ -65,6 +66,9 @@ public class PokemonRunner {
 					break;
 				case "exit":
 					running = false;
+					break;
+				case "list all pokemon":
+					getAllPokemon();
 					break;
 				case "collection":
 					collection();
@@ -96,6 +100,11 @@ public class PokemonRunner {
 		System.out.println("Exiting, thanks for playing");
 		
 	}
+	
+	public static void help() {
+		System.out.println("Commands: help, login, logout, exit, collection, search, catch, level, add user, list all pokemon");
+	}
+	
 	public static void addUser() {
 		try {
 			System.out.println("Enter Username:");
@@ -106,10 +115,10 @@ public class PokemonRunner {
 			
 			boolean success = db.getUsers().addUser(username, password);
 			if (success == false) {
-				System.out.println("cant create user");
+				System.out.println("Can't create user");
 			} else {
 				user = username;
-				System.out.println("logged in as " + user);
+				System.out.println("Logged in as " + user);
 				
 				//update cookies
 				try(BufferedWriter writer = new BufferedWriter( new FileWriter(new File(cookiePath), false))) {
@@ -127,7 +136,7 @@ public class PokemonRunner {
 	
 	public static void logout() {
 		user = null;
-		System.out.println("logged out");
+		System.out.println("Logged out");
 		
 		//update cookies
 		try(BufferedWriter writer = new BufferedWriter( new FileWriter(new File(cookiePath), false))) {
@@ -138,18 +147,24 @@ public class PokemonRunner {
 	}
 	
 	public static void catcher() {
-		System.out.println("Enter pokemon name");
-		String name = sc.nextLine();
-		
-		System.out.println("Enter pokemon level");
-		int level = sc.nextInt();
+		String name = "";
+		int level = 0;
+		try {
+			System.out.println("Enter pokemon name");
+			name = sc.nextLine();
+			
+			System.out.println("Enter pokemon level");
+			level = Integer.parseInt(sc.nextLine()); 
+		} catch (Exception e){
+			System.out.println("invalid input");
+		}
 		
 		try {
 			boolean success = db.getCollection().catchPokemon(user, name, level);
 			if (success == true) {
-				System.out.println("pokemon added");
+				System.out.println("Pokemon added");
 			} else {
-				System.out.println("not able to catch");
+				System.out.println("Not able to catch");
 			}
 		} catch (MaxLevelException e) {
 			System.out.println(e.getMessage());
@@ -157,16 +172,22 @@ public class PokemonRunner {
 	}
 	
 	public static void level() {
-		System.out.println("Enter pokemon name");
-		String name = sc.nextLine();
-		
-		System.out.println("Enter new pokemon level");
-		int level = sc.nextInt();
+		String name = "";
+		int level = 0;
+		try {
+			System.out.println("Enter pokemon name");
+			name = sc.nextLine();
+			
+			System.out.println("Enter new pokemon level");
+			level = Integer.parseInt(sc.nextLine());
+		} catch (Exception e){
+			System.out.println("invalid input");
+		}
 		
 		try {
 			boolean success = db.getCollection().levelUp(user, name, level);
 			if (success == true) {
-				System.out.println("pokemon leveled");
+				System.out.println("Pokemon leveled");
 			}
 		} catch (MaxLevelException e) {
 			System.out.println(e.getMessage()); //exception calls for message in the levelup method
@@ -181,18 +202,21 @@ public class PokemonRunner {
 		}
 	}
 	
+	public static void getAllPokemon() {
+		System.out.println("Getting collection:");
+		List<Pokemon> returnedCollection = db.getAllPokemon();
+		for (Pokemon p : returnedCollection) {
+			System.out.println(p);
+		}
+	}
+	
 	public static void search() throws PokemonNotFoundException{
 		System.out.println("Enter Pokemon Name:");
 		String name = sc.nextLine();
 		Optional<Collected> result = db.getCollection().getPokemon(user, name);
 		if (result.isPresent()) {
 			System.out.println(result.get());
-//		} else {
-//			//System.out.println("Pokemon not found");
-//			throw new PokemonNotFoundException("");
-//			
 		}
-//		
 	}
 	
 	public static void login() {
@@ -208,7 +232,7 @@ public class PokemonRunner {
 				db.getUsers().login(username, password);
 				// if exception not thrown, then success
 				user = username;
-				System.out.println("logged in as " + user);
+				System.out.println("Logged in as " + user);
 				
 				//update cookies
 				try(BufferedWriter writer = new BufferedWriter( new FileWriter(new File(cookiePath), false))) {
@@ -220,7 +244,7 @@ public class PokemonRunner {
         
 			} catch (InvalidLoginException e) { // TODO: custom exception for invalid login
 				System.out.println( e.getMessage());
-				System.out.println("press q to quit or any other key to try again:");
+				System.out.println("Press q to quit or any other key to try again:");
 				
 				String ans = sc.nextLine();
 				if (ans.toLowerCase().equals("q")) {
@@ -229,5 +253,25 @@ public class PokemonRunner {
 				}
 			}
 		}
+	}
+	
+	public static void icon() {
+		System.out.println( "                                  ,'\\" );
+		System.out.println( "    _.----.        ____         ,'  _\\   ___    ___     ____" );
+		System.out.println( "_,-'       `.     |    |  /`.   \\,-'    |   \\  /   |   |    \\  |`." );
+		System.out.println( "\\      __    \\    '-.  | /   `.  ___    |    \\/    |   '-.   \\ |  |" );
+		System.out.println( " \\.    \\ \\   |  __  |  |/    ,','_  `.  |          | __  |    \\|  |" );
+		System.out.println( "   \\    \\/   /,' _`.|      ,' / / / /   |          ,' _`.|     |  |");
+		System.out.println("    \\     ,-'/  /   \\    ,'   | \\/ / ,`.|         /  /   \\  |     |");
+		System.out.println("     \\    \\ |   \\_/  |   `-.  \\    `'  /|  |    ||   \\_/  | |\\    |");
+		System.out.println("      \\    \\ \\      /       `-.`.___,-' |  |\\  /| \\      /  | |   |");
+		System.out.println("       \\    \\ `.__,'|  |`-._    `|      |__| \\/ |  `.__,'|  | |   |");
+		System.out.println("        \\_.-'       |__|    `-._ |              '-.|     '-.| |   |");
+		System.out.println("                                `'                            '-._|");
+
+
+
+
+
 	}
 }
