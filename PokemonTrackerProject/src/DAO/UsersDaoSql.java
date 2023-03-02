@@ -48,7 +48,6 @@ public class UsersDaoSql implements UsersDao {
 		} catch (SQLException e) {
 			System.out.println("invalid sql command");
 			return false;
-			//throw new InvalidLoginException("Invalid Login, please enter a valid username and password");
 		}
 	}
 	

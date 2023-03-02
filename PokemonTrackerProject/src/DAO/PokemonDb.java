@@ -10,15 +10,8 @@ public class PokemonDb {
 	private UsersDaoSql users;
 	private CollectedSql collection;
 	private Connection conn;
-//	private String user;
-//	
-//
-//	public String getUser() {
-//		return user;
-//	}
-//	public void setUser(String user) {
-//		this.user = user;
-//	}
+
+	
 	public UsersDaoSql getUsers() {
 		return users;
 	}
@@ -37,4 +30,19 @@ public class PokemonDb {
 		this.collection = new CollectedSql(conn);
 	}
 	
+<<<<<<< HEAD
+	public boolean login(String username, String password) throws InvalidLoginException{
+		if (users.login(username, password)) {
+//			user = username;
+			return true;
+		} else {
+			
+			throw new InvalidLoginException("Invalid Login, please enter a valid username and password");
+			//return false;
+			
+		}
+		
+	}
+=======
+>>>>>>> 1935665243f7b9e20544369bb250b86a8f1952cc
 }
