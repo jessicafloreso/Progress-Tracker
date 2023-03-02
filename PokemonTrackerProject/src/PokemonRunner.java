@@ -210,16 +210,6 @@ public class PokemonRunner {
 				user = username;
 				System.out.println("logged in as " + user);
 				
-<<<<<<< HEAD
-			} catch (InvalidLoginException e) { // custom exception for invalid login
-				System.out.println( e.getMessage());
-				
-			} catch (Exception e) { // TODO: custom exception for invalid login
-				//System.out.println("Invalid login");
-				//throw new UserNotFoundException("Invalid Login, User or password not found");
-				//System.out.println( e.getMessage());
-				e.printStackTrace();
-=======
 				//update cookies
 				try(BufferedWriter writer = new BufferedWriter( new FileWriter(new File(cookiePath), false))) {
 					writer.write(user);
@@ -237,7 +227,6 @@ public class PokemonRunner {
 					System.out.println("Exiting");
 					loop = false; 
 				}
->>>>>>> 1935665243f7b9e20544369bb250b86a8f1952cc
 			}
 		}
 	}
