@@ -90,7 +90,6 @@ public class CollectedSql implements CollectedInterface {
 			throw new MaxLevelException(
 	                "Invalid level reached, the level should only be maximized to 100 and be no less than 1! ");
 		}
-		//select levelUp('username','pikachu', 100);
 		String stmtStr = "call levelUp(?, ?, ?)";
 		try(PreparedStatement pstmt = conn.prepareStatement(stmtStr)) {
 			pstmt.setString(1, user);
@@ -103,6 +102,7 @@ public class CollectedSql implements CollectedInterface {
 		} catch(SQLException e) {
 			e.printStackTrace(); // debug
 			System.out.println("sql error");
+		}
 		return false;
 	}
 
