@@ -47,4 +47,23 @@ public class UsersDaoSql implements UsersDao {
 		}
 	}
 	
+	@Override
+	public boolean addUser(String user, String password) {
+		String stmtStr = "call add_new_user(?, ?)";
+		try(PreparedStatement pstmt = conn.prepareStatement(stmtStr)) {
+			pstmt.setString(1, user);
+			pstmt.setString(2, password);
+			int count = pstmt.executeUpdate();
+			if (count == 1) {
+				return true;
+			}
+		} catch(SQLException e) {
+			e.printStackTrace(); // debug
+			System.out.println("sql error");
+		} catch(Exception e) { // TODO: change to custom exception
+			System.out.println("invalid level");
+		}
+		return false;
+	}
+	
 }

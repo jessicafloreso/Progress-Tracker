@@ -9,7 +9,7 @@ begin
     (select password from users where username = usernameIn) = passwordIn, True, false);
 end $$
 
-# CAUGHT FUNCTION
+# CAUGHT PROCEDURE
 drop procedure if exists caught $$
 create procedure caught(user_name_in varchar(30), pokemon_name_in varchar(30), level_in int) # java custom exception for level over 100
 begin
@@ -22,7 +22,7 @@ begin
     
 end $$
 
-# LEVEL UP FUNCTION
+# LEVEL UP PROCEDURE
 drop procedure if exists levelUp $$ # if trigger on level is not made, update collected here
 create procedure levelUp(user_name_in varchar(30), pokemon_name_in varchar(30), new_level int) 
 begin
@@ -40,11 +40,19 @@ BEGIN
     select * from collected where user_name = user_name_in;
 end$$
 
-# PROGRESS PROCEDURE
+# SEARCH PROCEDURE
 drop PROCEDURE if exists get_pokemon $$
 CREATE PROCEDURE get_pokemon(user_name_in varchar(30), pokemon_name_in varchar(30))
 BEGIN
     select * from collected where user_name = user_name_in and pokemon_name = pokemon_name_in;
+end$$
+
+# ADD NEW USER
+drop procedure if exists add_new_user $$
+create procedure add_new_user(user_name_in varchar(30), password_in varchar(30))
+Begin
+	insert into users(username, password) 
+			values (user_name_in, password_in);
 end$$
 
 ##############
@@ -79,6 +87,9 @@ call get_collection('username');
 truncate collected;
 -- truncate users;
 -- truncate pokemon;
+
+select * from users;
+call add_new_user('username5', 'password');
 
 
 
