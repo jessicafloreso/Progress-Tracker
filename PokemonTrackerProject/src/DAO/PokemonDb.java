@@ -37,16 +37,4 @@ public class PokemonDb {
 		this.collection = new CollectedSql(conn);
 	}
 	
-	public boolean login(String username, String password) throws InvalidLoginException{
-		if (users.login(username, password)) {
-//			user = username;
-			return true;
-		} else {
-			
-			throw new InvalidLoginException("Invalid login");
-			//return false;
-			// throw invalid login custom exception
-		}
-		
-	}
 }
