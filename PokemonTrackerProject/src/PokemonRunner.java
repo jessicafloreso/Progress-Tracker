@@ -9,6 +9,7 @@ import java.util.Optional;
 import java.util.Scanner;
 
 import DAO.Collected;
+import DAO.Pokemon;
 import DAO.PokemonDb;
 import customExceptions.MaxLevelException;
 import customExceptions.PokemonNotFoundException;
@@ -45,6 +46,7 @@ public class PokemonRunner {
 
 		
 		// 
+		help();
 		boolean running = true;
 		while (running) {
 			if (user != null) {
@@ -55,7 +57,7 @@ public class PokemonRunner {
 			String command = sc.nextLine(); 
 			switch(command.toLowerCase()) {
 				case "help":
-					System.out.println("commands: login, logout, exit, collection, search, catch, level, add user");
+					help();
 					break;
 				case "login": 
 					login();
@@ -65,6 +67,9 @@ public class PokemonRunner {
 					break;
 				case "exit":
 					running = false;
+					break;
+				case "list all pokemon":
+					getAllPokemon();
 					break;
 				case "collection":
 					collection();
@@ -96,6 +101,11 @@ public class PokemonRunner {
 		System.out.println("Exiting, thanks for playing");
 		
 	}
+	
+	public static void help() {
+		System.out.println("commands: help, login, logout, exit, collection, search, catch, level, add user, list all pokemon");
+	}
+	
 	public static void addUser() {
 		try {
 			System.out.println("Enter Username:");
@@ -177,6 +187,14 @@ public class PokemonRunner {
 		System.out.println("Getting collection:");
 		List<Collected> returnedCollection = db.getCollection().getAllCollected(user);
 		for (Collected p : returnedCollection) {
+			System.out.println(p);
+		}
+	}
+	
+	public static void getAllPokemon() {
+		System.out.println("Getting collection:");
+		List<Pokemon> returnedCollection = db.getAllPokemon();
+		for (Pokemon p : returnedCollection) {
 			System.out.println(p);
 		}
 	}
