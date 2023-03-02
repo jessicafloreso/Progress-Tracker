@@ -9,10 +9,6 @@ public class Pokemon {
 	}
 	@Override
 	public String toString() {
-		return "Pokemon [id=" + id + ", name=" + name + "]";
+		return String.format("%-3s %-10s", id, name);
 	}
-	
-	
-	
-	
 }

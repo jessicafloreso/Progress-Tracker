@@ -48,10 +48,10 @@ BEGIN
 end$$
 
 # get all pokemon
-drop PROCEDURE if exists get_pokemon $$
+drop PROCEDURE if exists get_all_pokemon $$
 CREATE PROCEDURE get_all_pokemon()
 BEGIN
-    select * from pokemon;
+    select * from pokemon order by id;
 end$$
 
 # ADD NEW USER
@@ -97,6 +97,7 @@ truncate collected;
 
 select * from users;
 call add_new_user('username5', 'password');
+call get_all_pokemon();
 
 
 
