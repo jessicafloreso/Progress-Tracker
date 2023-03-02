@@ -43,7 +43,6 @@ public class UsersDaoSql implements UsersDao {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
-			//throw new InvalidLoginException("Invalid Login, please enter a valid username and password");
 		}
 	}
 	

@@ -10,15 +10,8 @@ public class PokemonDb {
 	private UsersDaoSql users;
 	private CollectedSql collection;
 	private Connection conn;
-//	private String user;
-//	
-//
-//	public String getUser() {
-//		return user;
-//	}
-//	public void setUser(String user) {
-//		this.user = user;
-//	}
+
+	
 	public UsersDaoSql getUsers() {
 		return users;
 	}
@@ -43,9 +36,9 @@ public class PokemonDb {
 			return true;
 		} else {
 			
-			throw new InvalidLoginException("Invalid login");
+			throw new InvalidLoginException("Invalid Login, please enter a valid username and password");
 			//return false;
-			// throw invalid login custom exception
+			
 		}
 		
 	}

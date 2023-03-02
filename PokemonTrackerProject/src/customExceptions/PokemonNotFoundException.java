@@ -1,10 +1,10 @@
 package customExceptions;
 
-public class PokemonNotFound extends Exception {
+public class PokemonNotFoundException extends Exception {
 
 	private static final long serialVersionUID = 1L;
 	
-	public PokemonNotFound(String message) {
+	public PokemonNotFoundException(String message) {
         super(message);
     }
 
