@@ -49,4 +49,23 @@ public class PokemonDb {
 		}
 		return pokemon;
 	} 
+	
+	public List<Pokemon> gottaCatchem(String user) {
+		List<Pokemon> pokemon = new ArrayList<Pokemon>();
+		try( PreparedStatement pstmt = conn.prepareStatement("call gotta_catchem(?)")) {
+			pstmt.setString(1, user);
+			ResultSet rs = pstmt.executeQuery(); 
+			while(rs.next()) {
+				int id = rs.getInt("id");
+				String pokemonName = rs.getString("name");
+				
+				Pokemon entry = new Pokemon(id, pokemonName);
+				pokemon.add(entry);
+			}
+			rs.close();
+		} catch(SQLException e) {
+			System.out.println("sql error");
+		}
+		return pokemon;
+	} 
 }
