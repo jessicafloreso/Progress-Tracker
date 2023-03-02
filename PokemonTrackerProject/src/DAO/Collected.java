@@ -60,9 +60,9 @@ public class Collected {
 	@Override
 	public String toString() {
 		if (completed == true) {
-			return String.format("%-12s %-10s %-10s %-3s", "Completed", userName, pokemonName, level);
+			return String.format("%-10s %-3s %-12s", pokemonName, level, "Completed");
 		} else {
-			return String.format("%-12s %-10s %-10s %-3s", "In progress", userName, pokemonName, level);
+			return String.format("%-10s %-3s %-12s", pokemonName, level, "In progress");
 		}
 	}
 	
