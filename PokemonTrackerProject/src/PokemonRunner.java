@@ -154,7 +154,7 @@ public class PokemonRunner {
 			name = sc.nextLine();
 			
 			System.out.println("Enter pokemon level");
-			level = sc.nextInt();
+			level = Integer.parseInt(sc.nextLine()); 
 		} catch (Exception e){
 			System.out.println("invalid input");
 		}
@@ -179,7 +179,7 @@ public class PokemonRunner {
 			name = sc.nextLine();
 			
 			System.out.println("Enter new pokemon level");
-			level = sc.nextInt();
+			level = Integer.parseInt(sc.nextLine());
 		} catch (Exception e){
 			System.out.println("invalid input");
 		}
