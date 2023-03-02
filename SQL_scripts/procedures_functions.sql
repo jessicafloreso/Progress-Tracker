@@ -40,6 +40,13 @@ BEGIN
     select * from collected where user_name = user_name_in;
 end$$
 
+# PROGRESS gotta_catchem
+drop PROCEDURE if exists gotta_catchem $$
+CREATE PROCEDURE gotta_catchem(user_name_in varchar(30))
+BEGIN
+    select * from pokemon where name not in(select pokemon_name from collected where user_name = user_name_in) order by id;
+end$$
+
 # SEARCH PROCEDURE
 drop PROCEDURE if exists get_pokemon $$
 CREATE PROCEDURE get_pokemon(user_name_in varchar(30), pokemon_name_in varchar(30))
@@ -79,25 +86,29 @@ END$$
 
 
 delimiter ;
-    
+  --   
 call caught('username', 'pikachu', 5);
 call caught('username', 'charmander', 5);
-call caught('username2', 'Bulbasaur', 5);
-call levelUp('username','pikachu', 100);
-call levelUp('username','pikachu', 10);
+-- call caught('username2', 'Bulbasaur', 5);
+-- call levelUp('username','pikachu', 100);
+-- call levelUp('username','pikachu', 10);
 
-call get_pokemon('username', 'pikachu');
-call get_pokemon('username2', 'oddish');
+-- call get_pokemon('username', 'pikachu');
+-- call get_pokemon('username2', 'oddish');
 
+
+-- call get_collection('username');
+-- truncate collected;
+-- -- truncate users;
+-- -- truncate pokemon;
+
+-- select * from users;
+-- call add_new_user('username5', 'password');
+-- call get_all_pokemon();
 
 call get_collection('username');
-truncate collected;
--- truncate users;
--- truncate pokemon;
+call gotta_catchem('username');
 
-select * from users;
-call add_new_user('username5', 'password');
-call get_all_pokemon();
 
 
 

@@ -86,6 +86,9 @@ public class PokemonRunner {
 				case "level":
 					level();
 					break;
+				case "uncaught":
+					uncaught();
+					break;
 				case "add user":
 					addUser();
 					break;
@@ -102,7 +105,7 @@ public class PokemonRunner {
 	}
 	
 	public static void help() {
-		System.out.println("commands: help, login, logout, exit, collection, search, catch, level, add user, list all pokemon");
+		System.out.println("commands: help, login, logout, exit, collection, search, catch, level, add user, list all pokemon, uncaught");
 	}
 	
 	public static void addUser() {
@@ -205,6 +208,13 @@ public class PokemonRunner {
 	public static void getAllPokemon() {
 		System.out.println("Getting collection:");
 		List<Pokemon> returnedCollection = db.getAllPokemon();
+		for (Pokemon p : returnedCollection) {
+			System.out.println(p);
+		}
+	}
+	public static void uncaught() {
+		System.out.println("Getting collection:");
+		List<Pokemon> returnedCollection = db.gottaCatchem(user);
 		for (Pokemon p : returnedCollection) {
 			System.out.println(p);
 		}
