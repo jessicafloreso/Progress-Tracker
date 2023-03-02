@@ -102,7 +102,7 @@ public class CollectedSql implements CollectedInterface {
 		} catch(SQLException e) {
 			e.printStackTrace(); // debug
 			System.out.println("sql error");
-		} catch(Exception e) { // TODO: change to custom exception
+		}catch(Exception e) { // TODO: change to custom exception
 			System.out.println("invalid level");
 		}
 		return false;

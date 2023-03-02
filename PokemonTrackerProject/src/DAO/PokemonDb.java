@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.util.Optional;
 
 import connection.ConnectionManager;
+import customExceptions.InvalidLoginException;
 
 public class PokemonDb {
 	private UsersDaoSql users;
@@ -36,12 +37,14 @@ public class PokemonDb {
 		this.collection = new CollectedSql(conn);
 	}
 	
-	public boolean login(String username, String password) {
+	public boolean login(String username, String password) throws InvalidLoginException{
 		if (users.login(username, password)) {
 //			user = username;
 			return true;
 		} else {
-			return false;
+			
+			throw new InvalidLoginException("Invalid login");
+			//return false;
 			// throw invalid login custom exception
 		}
 		
