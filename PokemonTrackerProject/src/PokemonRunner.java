@@ -196,6 +196,7 @@ public class PokemonRunner {
 				String password = sc.nextLine();
 				
 				db.getUsers().login(username, password);
+				// if exception not thrown, then success
 				user = username;
 				System.out.println("logged in as " + user);
 				
