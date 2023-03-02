@@ -55,11 +55,15 @@ public class PokemonRunner {
 		// 
 		boolean running = true;
 		while (running) {
-			String command = sc.nextLine();
-			
+			if (user != null) {
+				System.out.print(user + "> ");
+			} else {
+				System.out.print("LOGGED OUT> ");
+			}
+			String command = sc.nextLine(); 
 			switch(command.toLowerCase()) {
 				case "help":
-					System.out.println("login, logout, exit, collection, search, catch, level");
+					System.out.println("commands: login, logout, exit, collection, search, catch, level, add user");
 					break;
 				case "login": 
 					login();
@@ -86,6 +90,9 @@ public class PokemonRunner {
 				case "level":
 					level();
 					break;
+				case "add user":
+					addUser();
+					break;
 				default:
 					System.out.println("Please type a valid input/command. For help, type help");
 					break;
@@ -97,6 +104,35 @@ public class PokemonRunner {
 		System.out.println("Exiting, thanks for playing");
 		
 	}
+	public static void addUser() {
+		try {
+			System.out.println("Enter Username:");
+			String username = sc.nextLine();
+			
+			System.out.println("Enter Password:");
+			String password = sc.nextLine();
+			
+			boolean success = db.getUsers().addUser(username, password);
+			if (success == false) {
+				System.out.println("cant create user");
+			} else {
+				user = username;
+				System.out.println("logged in as " + user);
+				
+				//update cookies
+				try(BufferedWriter writer = new BufferedWriter( new FileWriter(new File(cookiePath), false))) {
+					writer.write(user);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		} catch (Exception e) { // TODO: custom exception for invalid login
+			e.printStackTrace();
+		}
+		
+		
+	}
+	
 	public static void logout() {
 		user = null;
 		System.out.println("logged out");
@@ -119,12 +155,13 @@ public class PokemonRunner {
 		try {
 			boolean success = db.getCollection().catchPokemon(user, name, level);
 			if (success == true) {
-				System.out.println("pokemon leveled");
+				System.out.println("pokemon added");
+			} else {
+				System.out.println("not able to catch");
 			}
 		} catch (MaxLevelException e) {
 			System.out.println(e.getMessage());
 		}
-		
 	}
 	
 	public static void level() {
@@ -167,7 +204,8 @@ public class PokemonRunner {
 	}
 	
 	public static void login() {
-		while(user == null) {
+		boolean loop = true;
+		while(loop) {
 			try {
 				System.out.println("Enter Username:");
 				String username = sc.nextLine();
@@ -175,28 +213,11 @@ public class PokemonRunner {
 				System.out.println("Enter Password:");
 				String password = sc.nextLine();
 				
-				boolean success = db.login(username, password);
-				if (success == false) {
-					System.out.println("press q to quit or c to continue:");
-					String ans = sc.nextLine();
-					if (ans.toLowerCase().equals("q")) {
-						System.out.println("Exiting");
-						break;
-					}
-				} else {
-					user = username;
-					System.out.println("logged in as " + user);
-					
-					//update cookies
-					try(BufferedWriter writer = new BufferedWriter( new FileWriter(new File(cookiePath), false))) {
-						writer.write(user);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-					
-					
-				}
+				db.getUsers().login(username, password);
+				user = username;
+				System.out.println("logged in as " + user);
 				
+<<<<<<< HEAD
 			} catch (InvalidLoginException e) { // custom exception for invalid login
 				System.out.println( e.getMessage());
 				
@@ -205,6 +226,26 @@ public class PokemonRunner {
 				//throw new UserNotFoundException("Invalid Login, User or password not found");
 				//System.out.println( e.getMessage());
 				e.printStackTrace();
+=======
+				//update cookies
+				try(BufferedWriter writer = new BufferedWriter( new FileWriter(new File(cookiePath), false))) {
+					writer.write(user);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				loop = false;
+        
+			} catch (InvalidLoginException e) { // TODO: custom exception for invalid login
+				System.out.println( e.getMessage());
+				System.out.println("not a valid login");
+				System.out.println("press q to quit or any other key to try again:");
+				
+				String ans = sc.nextLine();
+				if (ans.toLowerCase().equals("q")) {
+					System.out.println("Exiting");
+					loop = false; 
+				}
+>>>>>>> 1935665243f7b9e20544369bb250b86a8f1952cc
 			}
 			
 		}

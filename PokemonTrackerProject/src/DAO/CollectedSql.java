@@ -114,11 +114,14 @@ public class CollectedSql implements CollectedInterface {
 		try(PreparedStatement pstmt = conn.prepareStatement("call get_pokemon(?, ?)"
 				+ "")) {
 			
+<<<<<<< HEAD
 			//debug
 			//System.out.println(user);
 			//System.out.println(pokemonNameIn);
 			//end debug
 			
+=======
+>>>>>>> 1935665243f7b9e20544369bb250b86a8f1952cc
 			pstmt.setString(1, user);
 			pstmt.setString(2, pokemonNameIn);
 			
