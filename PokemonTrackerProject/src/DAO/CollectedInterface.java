@@ -15,5 +15,6 @@ public interface CollectedInterface {
 	public Optional<Collected> getPokemon(String user, String pokemonName);
 	public boolean catchPokemon(String user, String pokemon, int level) throws MaxLevelException;
 	public boolean levelUp(String user, String pokemon, int level ) throws MaxLevelException;
+	public boolean addUser(String user, String password);
 	
 }

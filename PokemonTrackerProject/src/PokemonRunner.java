@@ -46,11 +46,15 @@ public class PokemonRunner {
 		// 
 		boolean running = true;
 		while (running) {
-			String command = sc.nextLine();
-			
+			if (user != null) {
+				System.out.print(user + "> ");
+			} else {
+				System.out.print("LOGGED OUT> ");
+			}
+			String command = sc.nextLine(); 
 			switch(command.toLowerCase()) {
 				case "help":
-					System.out.println("login, logout, exit, collection, search, catch, level");
+					System.out.println("commands: login, logout, exit, collection, search, catch, level");
 					break;
 				case "login": 
 					login();
@@ -106,12 +110,14 @@ public class PokemonRunner {
 		try {
 			boolean success = db.getCollection().catchPokemon(user, name, level);
 			if (success == true) {
-				System.out.println("pokemon leveled");
+				System.out.println("pokemon added");
+			} else {
+				System.out.println("not able to catch");
 			}
 		} catch (MaxLevelException e) {
 			System.out.println("level out of bounds");
 		}
-		
+		System.out.println("barrier");
 	}
 	
 	public static void level() {
@@ -152,7 +158,8 @@ public class PokemonRunner {
 	}
 	
 	public static void login() {
-		while(user == null) {
+		boolean loop = true;
+		while(loop) {
 			try {
 				System.out.println("Enter Username:");
 				String username = sc.nextLine();
@@ -162,11 +169,12 @@ public class PokemonRunner {
 				
 				boolean success = db.login(username, password);
 				if (success == false) {
-					System.out.println("press q to quit or c to continue:");
+					System.out.println("not a valid login");
+					System.out.println("press q to quit or any other key to try again:");
 					String ans = sc.nextLine();
 					if (ans.toLowerCase().equals("q")) {
 						System.out.println("Exiting");
-						break;
+						loop = false; 
 					}
 				} else {
 					user = username;
@@ -178,10 +186,8 @@ public class PokemonRunner {
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-					
-					
+					loop = false;
 				}
-				
 			} catch (Exception e) { // TODO: custom exception for invalid login
 				System.out.println("Invalid login");
 				e.printStackTrace();
