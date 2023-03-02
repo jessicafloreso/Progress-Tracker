@@ -62,9 +62,9 @@ public class Collected {
 	@Override
 	public String toString() {
 		if (completed == true) {
-			return "completed\t" + userName + "\t" + pokemonName + "\t" + level;
+			return String.format("%-12s %-10s %-10s %-3s", "Completed", userName, pokemonName, level);
 		} else {
-			return "in progress\t" + userName + "\t" + pokemonName + "\t" + level;
+			return String.format("%-12s %-10s %-10s %-3s", "In progress", userName, pokemonName, level);
 		}
 	}
 	
