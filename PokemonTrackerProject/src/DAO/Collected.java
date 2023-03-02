@@ -1,7 +1,5 @@
 package DAO;
 
-import java.util.Arrays;
-
 public class Collected {
 	private String userName;
 	private String pokemonName;
