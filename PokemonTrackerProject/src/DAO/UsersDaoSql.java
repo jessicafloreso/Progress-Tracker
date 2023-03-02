@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.Optional;
 
 import connection.ConnectionManager;
+import customExceptions.InvalidLoginException;
 
 public class UsersDaoSql implements UsersDao {
 	private Connection conn;
@@ -42,6 +43,7 @@ public class UsersDaoSql implements UsersDao {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
+			//throw new InvalidLoginException("Invalid Login, please enter a valid username and password");
 		}
 	}
 	
