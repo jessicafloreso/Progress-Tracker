@@ -230,6 +230,7 @@ public class PokemonRunner {
 				//throw new UserNotFoundException("Invalid Login, User or password not found");
 				System.out.println( e.getMessage());
 				//e.getMessage();
+			}
 			
 		}
 	}
