@@ -54,7 +54,7 @@ public class PokemonRunner {
 			String command = sc.nextLine(); 
 			switch(command.toLowerCase()) {
 				case "help":
-					System.out.println("commands: login, logout, exit, collection, search, catch, level");
+					System.out.println("commands: login, logout, exit, collection, search, catch, level, add user");
 					break;
 				case "login": 
 					login();
@@ -77,6 +77,9 @@ public class PokemonRunner {
 				case "level":
 					level();
 					break;
+				case "add user":
+					addUser();
+					break;
 				default:
 					System.out.println("Not a command");
 					break;
@@ -88,6 +91,35 @@ public class PokemonRunner {
 		System.out.println("Exiting, thanks for playing");
 		
 	}
+	public static void addUser() {
+		try {
+			System.out.println("Enter Username:");
+			String username = sc.nextLine();
+			
+			System.out.println("Enter Password:");
+			String password = sc.nextLine();
+			
+			boolean success = db.getUsers().addUser(username, password);
+			if (success == false) {
+				System.out.println("cant create user");
+			} else {
+				user = username;
+				System.out.println("logged in as " + user);
+				
+				//update cookies
+				try(BufferedWriter writer = new BufferedWriter( new FileWriter(new File(cookiePath), false))) {
+					writer.write(user);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		} catch (Exception e) { // TODO: custom exception for invalid login
+			e.printStackTrace();
+		}
+		
+		
+	}
+	
 	public static void logout() {
 		user = null;
 		System.out.println("logged out");
@@ -117,7 +149,6 @@ public class PokemonRunner {
 		} catch (MaxLevelException e) {
 			System.out.println("level out of bounds");
 		}
-		System.out.println("barrier");
 	}
 	
 	public static void level() {

@@ -10,5 +10,7 @@ public interface UsersDao {
 	
 	public Optional<Users> getUserById(int id);
 	public boolean login(String username, String password);
+	public boolean addUser(String user, String password);
+
 	
 }
