@@ -74,7 +74,7 @@ public class CollectedSql implements CollectedInterface {
 				return true;
 			}
 		} catch(SQLException e) {
-			e.printStackTrace(); // debug
+//			e.printStackTrace(); // debug
 			System.out.println("sql error");
 		} 
 //		catch(Exception e) { // TODO: change to custom exception

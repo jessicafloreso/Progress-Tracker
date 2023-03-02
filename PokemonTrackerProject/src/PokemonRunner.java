@@ -23,7 +23,7 @@ public class PokemonRunner {
 
 	public static void main(String[] args) {
 		
-		
+		icon();
 		
 		db = new PokemonDb();
 		sc = new Scanner(System.in);
@@ -41,7 +41,6 @@ public class PokemonRunner {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 		
 
 		
@@ -148,11 +147,17 @@ public class PokemonRunner {
 	}
 	
 	public static void catcher() {
-		System.out.println("Enter pokemon name");
-		String name = sc.nextLine();
-		
-		System.out.println("Enter pokemon level");
-		int level = sc.nextInt();
+		String name = "";
+		int level = 0;
+		try {
+			System.out.println("Enter pokemon name");
+			name = sc.nextLine();
+			
+			System.out.println("Enter pokemon level");
+			level = Integer.parseInt(sc.nextLine()); 
+		} catch (Exception e){
+			System.out.println("invalid input");
+		}
 		
 		try {
 			boolean success = db.getCollection().catchPokemon(user, name, level);
@@ -167,11 +172,17 @@ public class PokemonRunner {
 	}
 	
 	public static void level() {
-		System.out.println("Enter pokemon name");
-		String name = sc.nextLine();
-		
-		System.out.println("Enter new pokemon level");
-		int level = sc.nextInt();
+		String name = "";
+		int level = 0;
+		try {
+			System.out.println("Enter pokemon name");
+			name = sc.nextLine();
+			
+			System.out.println("Enter new pokemon level");
+			level = Integer.parseInt(sc.nextLine());
+		} catch (Exception e){
+			System.out.println("invalid input");
+		}
 		
 		try {
 			boolean success = db.getCollection().levelUp(user, name, level);
@@ -205,12 +216,7 @@ public class PokemonRunner {
 		Optional<Collected> result = db.getCollection().getPokemon(user, name);
 		if (result.isPresent()) {
 			System.out.println(result.get());
-//		} else {
-//			//System.out.println("Pokemon not found");
-//			throw new PokemonNotFoundException("");
-//			
 		}
-//		
 	}
 	
 	public static void login() {
@@ -247,5 +253,25 @@ public class PokemonRunner {
 				}
 			}
 		}
+	}
+	
+	public static void icon() {
+		System.out.println( "                                  ,'\\" );
+		System.out.println( "    _.----.        ____         ,'  _\\   ___    ___     ____" );
+		System.out.println( "_,-'       `.     |    |  /`.   \\,-'    |   \\  /   |   |    \\  |`." );
+		System.out.println( "\\      __    \\    '-.  | /   `.  ___    |    \\/    |   '-.   \\ |  |" );
+		System.out.println( " \\.    \\ \\   |  __  |  |/    ,','_  `.  |          | __  |    \\|  |" );
+		System.out.println( "   \\    \\/   /,' _`.|      ,' / / / /   |          ,' _`.|     |  |");
+		System.out.println("    \\     ,-'/  /   \\    ,'   | \\/ / ,`.|         /  /   \\  |     |");
+		System.out.println("     \\    \\ |   \\_/  |   `-.  \\    `'  /|  |    ||   \\_/  | |\\    |");
+		System.out.println("      \\    \\ \\      /       `-.`.___,-' |  |\\  /| \\      /  | |   |");
+		System.out.println("       \\    \\ `.__,'|  |`-._    `|      |__| \\/ |  `.__,'|  | |   |");
+		System.out.println("        \\_.-'       |__|    `-._ |              '-.|     '-.| |   |");
+		System.out.println("                                `'                            '-._|");
+
+
+
+
+
 	}
 }
