@@ -1,3 +1,6 @@
+
+import java.sql.SQLException;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.EOFException;
@@ -8,6 +11,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
@@ -15,6 +19,7 @@ import java.util.Scanner;
 import DAO.Collected;
 import DAO.PokemonDb;
 import customExceptions.MaxLevelException;
+import customExceptions.InvalidLoginException;
 
 public class PokemonRunner {
 	private static PokemonDb db;
@@ -74,7 +79,7 @@ public class PokemonRunner {
 					level();
 					break;
 				default:
-					System.out.println("Not a command");
+					System.out.println("Not a valid input/command. Please try again. For help, type help");
 					break;
 			}
 			
@@ -109,7 +114,7 @@ public class PokemonRunner {
 				System.out.println("pokemon leveled");
 			}
 		} catch (MaxLevelException e) {
-			System.out.println("level out of bounds");
+			System.out.println(e.getMessage());
 		}
 		
 	}
@@ -127,7 +132,7 @@ public class PokemonRunner {
 				System.out.println("pokemon leveled");
 			}
 		} catch (MaxLevelException e) {
-			System.out.println("level out of bounds");
+			System.out.println(e.getMessage()); //exception calls for message in the levelup method
 		}
 	}
 	
@@ -182,8 +187,15 @@ public class PokemonRunner {
 					
 				}
 				
+			} catch (InvalidLoginException e) { // TODO: custom exception for invalid login
+				//System.out.println("Invalid login");
+				//throw new UserNotFoundException("Invalid Login, User or password not found");
+				System.out.println( e.getMessage());
+				//e.getMessage();
 			} catch (Exception e) { // TODO: custom exception for invalid login
-				System.out.println("Invalid login");
+				//System.out.println("Invalid login");
+				//throw new UserNotFoundException("Invalid Login, User or password not found");
+				//System.out.println( e.getMessage());
 				e.printStackTrace();
 			}
 			
