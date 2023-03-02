@@ -1,16 +1,8 @@
-
-import java.sql.SQLException;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.EOFException;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 import java.util.List;
 import java.util.Optional;
@@ -217,7 +209,6 @@ public class PokemonRunner {
         
 			} catch (InvalidLoginException e) { // TODO: custom exception for invalid login
 				System.out.println( e.getMessage());
-				System.out.println("not a valid login");
 				System.out.println("press q to quit or any other key to try again:");
 				
 				String ans = sc.nextLine();
@@ -226,7 +217,6 @@ public class PokemonRunner {
 					loop = false; 
 				}
 			}
-			
 		}
 	}
 }

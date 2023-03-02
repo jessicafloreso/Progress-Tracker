@@ -8,7 +8,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
 
-import connection.ConnectionManager;
 import customExceptions.InvalidLoginException;
 
 public class UsersDaoSql implements UsersDao {

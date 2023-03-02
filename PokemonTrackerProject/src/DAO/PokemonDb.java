@@ -1,24 +1,13 @@
 package DAO;
 
 import java.sql.Connection;
-import java.util.Optional;
-
 import connection.ConnectionManager;
-import customExceptions.InvalidLoginException;
 
 public class PokemonDb {
 	private UsersDaoSql users;
 	private CollectedSql collection;
 	private Connection conn;
-//	private String user;
-//	
-//
-//	public String getUser() {
-//		return user;
-//	}
-//	public void setUser(String user) {
-//		this.user = user;
-//	}
+
 	public UsersDaoSql getUsers() {
 		return users;
 	}

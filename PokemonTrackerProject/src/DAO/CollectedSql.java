@@ -6,7 +6,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -76,9 +75,10 @@ public class CollectedSql implements CollectedInterface {
 		} catch(SQLException e) {
 			e.printStackTrace(); // debug
 			System.out.println("sql error");
-		} catch(Exception e) { // TODO: change to custom exception
-			System.out.println("invalid level");
-		}
+		} 
+//		catch(Exception e) { // TODO: change to custom exception
+//			System.out.println("invalid level");
+//		}
 		return false;
 	}
 
@@ -102,9 +102,10 @@ public class CollectedSql implements CollectedInterface {
 		} catch(SQLException e) {
 			e.printStackTrace(); // debug
 			System.out.println("sql error");
-		}catch(Exception e) { // TODO: change to custom exception
-			System.out.println("invalid level");
-		}
+		} 
+//		catch(Exception e) { // TODO: change to custom exception
+//			System.out.println("invalid level");
+//		}
 		return false;
 	}
 
