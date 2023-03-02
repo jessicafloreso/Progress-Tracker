@@ -32,16 +32,21 @@ public class UsersDaoSql implements UsersDao {
 	}
 
 	@Override
-	public boolean login(String username, String password) {
+	public boolean login(String username, String password) throws InvalidLoginException {
 		String stmtStr = "select login(?, ?)";
 		try(PreparedStatement pstmt = conn.prepareStatement(stmtStr)) {
 			pstmt.setString(1, username);
 			pstmt.setString(2, password);
 			ResultSet rs = pstmt.executeQuery();
 			rs.next();
-			return rs.getBoolean(1);
-		} catch (Exception e) {
-			e.printStackTrace();
+			
+			if( rs.getBoolean(1)) {
+				return true;
+			} else {
+				throw new InvalidLoginException("Invalid login");
+			}
+		} catch (SQLException e) {
+			System.out.println("invalid sql command");
 			return false;
 			//throw new InvalidLoginException("Invalid Login, please enter a valid username and password");
 		}
