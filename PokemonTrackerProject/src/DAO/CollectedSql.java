@@ -12,6 +12,7 @@ import java.util.Optional;
 
 import connection.ConnectionManager;
 import customExceptions.MaxLevelException;
+import customExceptions.PokemonNotFoundException;
 
 public class CollectedSql implements CollectedInterface {
 	private Connection conn;
@@ -84,7 +85,7 @@ public class CollectedSql implements CollectedInterface {
 
 	@Override
 	public boolean levelUp(String user, String pokemon, int level) throws MaxLevelException {
-		if (level > 100 || level < 0) { // TODO: throw custom exception
+		if (level > 100 || level < 0) { // throw custom exception
 			// Custom exception thrown here
 			throw new MaxLevelException(
 	                "Invalid level reached, the level should only be maximized to 100 and be no less than 1! ");
@@ -102,18 +103,14 @@ public class CollectedSql implements CollectedInterface {
 		} catch(SQLException e) {
 			e.printStackTrace(); // debug
 			System.out.println("sql error");
-		} 
-//		catch(Exception e) { // TODO: change to custom exception
-//			System.out.println("invalid level");
-//		}
 		return false;
 	}
 
 	@Override
-	public Optional<Collected> getPokemon(String user, String pokemonNameIn) {
+	public Optional<Collected> getPokemon(String user, String pokemonNameIn) throws PokemonNotFoundException {
 		try(PreparedStatement pstmt = conn.prepareStatement("call get_pokemon(?, ?)"
 				+ "")) {
-			
+		
 			pstmt.setString(1, user);
 			pstmt.setString(2, pokemonNameIn);
 			
@@ -132,7 +129,8 @@ public class CollectedSql implements CollectedInterface {
 				return pokemonFound;
 			} else {
 				rs.close();
-				return Optional.empty();
+				throw new PokemonNotFoundException("Pokemon not found/caught, type search to try again or catch to add new Pokemon");
+				//return Optional.empty();
 			}
 		} catch(SQLException e) {
 			System.out.println("sql error");

@@ -25,5 +25,4 @@ public class PokemonDb {
 		this.users = new UsersDaoSql(conn);
 		this.collection = new CollectedSql(conn);
 	}
-	
 }
