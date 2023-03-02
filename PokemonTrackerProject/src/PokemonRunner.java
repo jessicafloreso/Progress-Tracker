@@ -36,7 +36,7 @@ public class PokemonRunner {
 				user = savedUser;
 				System.out.println("Welcome back " + savedUser);
 			} else {
-				System.out.println("login with 'login' to continue!");
+				System.out.println("Login with 'login' to continue!");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -106,6 +106,7 @@ public class PokemonRunner {
 	
 	public static void help() {
 		System.out.println("commands: help, login, logout, exit, collection, search, catch, level, add user, list all pokemon, uncaught");
+
 	}
 	
 	public static void addUser() {
@@ -118,10 +119,10 @@ public class PokemonRunner {
 			
 			boolean success = db.getUsers().addUser(username, password);
 			if (success == false) {
-				System.out.println("cant create user");
+				System.out.println("Can't create user");
 			} else {
 				user = username;
-				System.out.println("logged in as " + user);
+				System.out.println("Logged in as " + user);
 				
 				//update cookies
 				try(BufferedWriter writer = new BufferedWriter( new FileWriter(new File(cookiePath), false))) {
@@ -139,7 +140,7 @@ public class PokemonRunner {
 	
 	public static void logout() {
 		user = null;
-		System.out.println("logged out");
+		System.out.println("Logged out");
 		
 		//update cookies
 		try(BufferedWriter writer = new BufferedWriter( new FileWriter(new File(cookiePath), false))) {
@@ -165,9 +166,9 @@ public class PokemonRunner {
 		try {
 			boolean success = db.getCollection().catchPokemon(user, name, level);
 			if (success == true) {
-				System.out.println("pokemon added");
+				System.out.println("Pokemon added");
 			} else {
-				System.out.println("not able to catch");
+				System.out.println("Not able to catch");
 			}
 		} catch (MaxLevelException e) {
 			System.out.println(e.getMessage());
@@ -190,7 +191,7 @@ public class PokemonRunner {
 		try {
 			boolean success = db.getCollection().levelUp(user, name, level);
 			if (success == true) {
-				System.out.println("pokemon leveled");
+				System.out.println("Pokemon leveled");
 			}
 		} catch (MaxLevelException e) {
 			System.out.println(e.getMessage()); //exception calls for message in the levelup method
@@ -242,7 +243,7 @@ public class PokemonRunner {
 				db.getUsers().login(username, password);
 				// if exception not thrown, then success
 				user = username;
-				System.out.println("logged in as " + user);
+				System.out.println("Logged in as " + user);
 				
 				//update cookies
 				try(BufferedWriter writer = new BufferedWriter( new FileWriter(new File(cookiePath), false))) {
@@ -254,7 +255,7 @@ public class PokemonRunner {
         
 			} catch (InvalidLoginException e) { // TODO: custom exception for invalid login
 				System.out.println( e.getMessage());
-				System.out.println("press q to quit or any other key to try again:");
+				System.out.println("Press q to quit or any other key to try again:");
 				
 				String ans = sc.nextLine();
 				if (ans.toLowerCase().equals("q")) {
